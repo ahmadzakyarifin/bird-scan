@@ -1,0 +1,125 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 transition-colors duration-300 antialiased;
+  }
+  
+  body.dark {
+    @apply bg-slate-950 text-slate-50;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors shadow-sm font-semibold;
+  }
+  
+  .dark .btn-primary {
+    @apply bg-white text-slate-900 hover:bg-slate-200;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition-colors font-semibold;
+  }
+  
+  .dark .btn-secondary {
+    @apply bg-slate-800 text-white hover:bg-slate-700;
+  }
+  
+  .glass-card {
+    @apply bg-white shadow-sm border border-slate-200 rounded-xl overflow-hidden;
+  }
+  
+  .dark .glass-card {
+    @apply bg-slate-900 border-slate-800;
+  }
+}
+
+/* Animations for Landing View */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes ripple {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.animate-ripple {
+  animation: ripple 2.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes cloudMove1 {
+  from { transform: translateX(0); }
+  to { transform: translateX(120vw); }
+}
+.animate-cloud-1 {
+  animation: cloudMove1 40s linear infinite;
+}
+
+@keyframes cloudMove2 {
+  from { transform: translateX(0); }
+  to { transform: translateX(120vw); }
+}
+.animate-cloud-2 {
+  animation: cloudMove2 60s linear infinite;
+  animation-delay: -20s;
+}
+
+@keyframes firefly1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  50% { transform: translate(20px, -20px) scale(1.5); opacity: 1; }
+}
+.animate-firefly-1 {
+  animation: firefly1 4s ease-in-out infinite;
+}
+
+@keyframes firefly2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+  50% { transform: translate(-30px, 30px) scale(2); opacity: 0.8; }
+}
+.animate-firefly-2 {
+  animation: firefly2 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+@keyframes birdFly {
+  from { transform: translateX(0) translateY(0); }
+  to { transform: translateX(120vw) translateY(-20vh); }
+}
+.animate-bird-1 {
+  animation: birdFly 20s linear infinite;
+}
+.animate-bird-2 {
+  animation: birdFly 35s linear infinite;
+  animation-delay: -10s;
+}

@@ -1,0 +1,82 @@
+{
+  "app": {
+    "title": "FloraScan",
+    "subtitle": "Professional Plant AI Identifier",
+    "genus_tooltip": "The AI model is currently trained to detect 15 different plant Genera.",
+    "dataset_title": "About AI Dataset",
+    "dataset_desc": "This AI model is trained using high-quality image datasets to recognize the following 15 plant genera:",
+    "dataset_close": "Close"
+  },
+  "camera": {
+    "start": "Open Camera",
+    "stop": "Close Camera",
+    "capture": "Scan Plant",
+    "retake": "Retake Photo",
+    "save_history": "Save to History",
+    "analyzing": "AI is analyzing...",
+    "permission_denied": "Camera access denied. Please allow camera permissions.",
+    "permission_hint": "If the site cannot ask for permission, close chat bubbles, floating windows, screen filters, or app overlays, then tap Open Camera again.",
+    "no_device": "No camera device found.",
+    "unsupported": "This browser does not support direct camera access.",
+    "analysis_failed": "The AI model failed to analyze the image. Reload the app and try again.",
+    "instruction": "Point the camera at the plant leaf for identification"
+  },
+  "result": {
+    "title": "Analysis Result",
+    "confidence": "Confidence",
+    "scientific_name": "Scientific Name",
+    "family": "Family",
+    "description": "Botanical Description",
+    "waiting": "Waiting for image input...",
+    "empty_desc": "Scan a plant to see the result here."
+  },
+  "footer": {
+    "edu_note": "Reference for botanical studies. Not for consumption advice."
+  },
+  "pwa": {
+    "install_button": "Install",
+    "modal_title": "Install FloraScan",
+    "modal_desc": "If the install prompt does not appear automatically, use the browser menu to install FloraScan like a regular app.",
+    "android_step1": "Open the browser menu from the three-dot button.",
+    "android_step2": "Choose Install app or Add to Home screen.",
+    "android_step3": "Confirm the install, then open FloraScan from the app icon.",
+    "ios_step1": "Open FloraScan in Safari.",
+    "ios_step2": "Tap the Share button at the bottom of the browser.",
+    "ios_step3": "Choose Add to Home Screen, then tap Add.",
+    "desktop_step1": "Open FloraScan in Chrome, Edge, or another PWA-capable browser.",
+    "desktop_step2": "Look for the install icon in the address bar or open the browser menu.",
+    "desktop_step3": "Choose Install FloraScan and confirm the installation."
+  },
+  "history": {
+    "title": "Scan History Table",
+    "total": "Total",
+    "col_plant": "Plant",
+    "col_accuracy": "Accuracy Rate",
+    "col_time": "Scan Time",
+    "col_action": "Action",
+    "empty_title": "No history data yet.",
+    "empty_desc": "Please scan your first plant.",
+    "btn_detail": "View Details",
+    "btn_delete": "Delete",
+    "page": "Page",
+    "of": "of",
+    "prev": "Previous",
+    "next": "Next",
+    "confirm_delete": "Are you sure you want to delete this history record?",
+    "delete_title": "Delete History",
+    "delete_desc": "Are you sure you want to delete this scan result? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete_confirm": "Yes, Delete"
+  },
+  "modal": {
+    "title": "Scan Details",
+    "scanned_at": "Scanned at:",
+    "result_title": "Identification Result",
+    "family": "Family",
+    "accuracy_title": "Accuracy Rate",
+    "notes_title": "Researcher Notes (Optional)",
+    "notes_placeholder": "Add notes about location, leaf condition, etc...",
+    "save_btn": "Save Note",
+    "save_success": "Saved"
+  }
+}
