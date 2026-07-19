@@ -1,16 +1,16 @@
 {
   "app": {
-    "title": "FloraScan",
-    "subtitle": "AI Pendeteksi Tanaman Profesional",
-    "genus_tooltip": "Model AI saat ini telah dilatih untuk mendeteksi 15 Genus tanaman yang berbeda.",
+    "title": "FaunaNusantara.ai",
+    "subtitle": "AI Pendeteksi Burung Profesional",
+    "genus_tooltip": "Model AI saat ini telah dilatih untuk mendeteksi spesies burung khas Indonesia.",
     "dataset_title": "Tentang Dataset AI",
-    "dataset_desc": "Model AI ini dilatih menggunakan dataset gambar berkualitas tinggi untuk mengenali 15 genus tanaman berikut:",
+    "dataset_desc": "Model AI ini dilatih menggunakan dataset gambar berkualitas tinggi untuk mengenali spesies burung khas Indonesia berikut:",
     "dataset_close": "Tutup"
   },
   "camera": {
     "start": "Buka Kamera",
     "stop": "Tutup Kamera",
-    "capture": "Pindai Tanaman",
+    "capture": "Pindai Burung",
     "retake": "Ambil Ulang Foto",
     "save_history": "Simpan ke Riwayat",
     "analyzing": "AI sedang menganalisis...",
@@ -19,43 +19,43 @@
     "no_device": "Perangkat kamera tidak ditemukan.",
     "unsupported": "Browser ini belum mendukung akses kamera langsung.",
     "analysis_failed": "Model AI gagal menganalisis gambar. Muat ulang aplikasi lalu coba lagi.",
-    "instruction": "Arahkan kamera ke daun tanaman untuk identifikasi"
+    "instruction": "Arahkan kamera ke objek burung untuk identifikasi"
   },
   "result": {
     "title": "Hasil Analisis",
     "confidence": "Tingkat Kecocokan",
     "scientific_name": "Nama Ilmiah",
     "family": "Famili",
-    "description": "Deskripsi Botani",
+    "description": "Deskripsi Burung",
     "waiting": "Menunggu input gambar...",
-    "empty_desc": "Pindai tanaman untuk melihat hasilnya di sini."
+    "empty_desc": "Pindai burung untuk melihat hasilnya di sini."
   },
   "footer": {
-    "edu_note": "Rujukan studi botani mahasiswa. Bukan acuan untuk konsumsi."
+    "edu_note": "Rujukan studi ornitologi (keilmuan burung) mahasiswa. Harap lindungi fauna Indonesia."
   },
   "pwa": {
     "install_button": "Install",
-    "modal_title": "Install FloraScan",
-    "modal_desc": "Jika prompt install belum muncul otomatis, gunakan menu browser untuk memasang FloraScan seperti aplikasi biasa.",
+    "modal_title": "Install FaunaNusantara.ai",
+    "modal_desc": "Jika prompt install belum muncul otomatis, gunakan menu browser untuk memasang FaunaNusantara.ai seperti aplikasi biasa.",
     "android_step1": "Buka menu browser melalui tombol tiga titik.",
     "android_step2": "Pilih Install app atau Tambahkan ke layar utama.",
-    "android_step3": "Konfirmasi install, lalu buka FloraScan dari ikon aplikasi.",
-    "ios_step1": "Buka FloraScan melalui Safari.",
+    "android_step3": "Konfirmasi install, lalu buka FaunaNusantara.ai dari ikon aplikasi.",
+    "ios_step1": "Buka FaunaNusantara.ai melalui Safari.",
     "ios_step2": "Tekan tombol Bagikan di bagian bawah browser.",
     "ios_step3": "Pilih Tambahkan ke Layar Utama, lalu tekan Tambah.",
-    "desktop_step1": "Buka FloraScan di Chrome, Edge, atau browser yang mendukung PWA.",
+    "desktop_step1": "Buka FaunaNusantara.ai di Chrome, Edge, atau browser yang mendukung PWA.",
     "desktop_step2": "Cari ikon install di address bar atau buka menu browser.",
-    "desktop_step3": "Pilih Install FloraScan dan konfirmasi pemasangan."
+    "desktop_step3": "Pilih Install FaunaNusantara.ai dan konfirmasi pemasangan."
   },
   "history": {
     "title": "Tabel Riwayat Pemindaian",
     "total": "Total",
-    "col_plant": "Tanaman",
+    "col_plant": "Burung",
     "col_accuracy": "Tingkat Akurasi",
     "col_time": "Waktu Scan",
     "col_action": "Aksi",
     "empty_title": "Belum ada data riwayat.",
-    "empty_desc": "Silakan pindai tanaman pertama Anda.",
+    "empty_desc": "Silakan pindai burung pertama Anda.",
     "btn_detail": "Lihat Detail",
     "btn_delete": "Hapus",
     "page": "Halaman",
@@ -75,7 +75,7 @@
     "family": "Famili",
     "accuracy_title": "Tingkat Akurasi",
     "notes_title": "Catatan Peneliti (Opsional)",
-    "notes_placeholder": "Tambahkan catatan lokasi penemuan, kondisi daun, dll...",
+    "notes_placeholder": "Tambahkan catatan lokasi penemuan, kondisi bulu burung, dll...",
     "save_btn": "Simpan Catatan",
     "save_success": "Tersimpan"
   }

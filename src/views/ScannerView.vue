@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <h1 class="text-3xl font-extrabold tracking-normal leading-tight">FloraScan</h1>
+      <h1 class="text-3xl font-extrabold tracking-normal leading-tight">FaunaNusantara.ai</h1>
       <p class="text-sm text-emerald-50/90 font-medium mt-2 text-center">{{ $t('app.subtitle') }}</p>
 
       <div class="w-44 h-1.5 bg-white/25 rounded-full mt-8 overflow-hidden">
@@ -65,10 +65,7 @@
           <span class="hidden md:inline">Info Dataset</span>
         </button>
         
-        <!-- Lang Toggle -->
-        <button @click="toggleLang" class="flex items-center justify-center text-xs font-bold px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700 h-9">
-          {{ currentLang.toUpperCase() }}
-        </button>
+
         
         <!-- Theme Toggle -->
         <button @click="toggleTheme" class="flex items-center justify-center px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700 h-9">
@@ -170,8 +167,20 @@
               <button @click="retakePhoto" class="px-4 py-3 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold w-[160px] flex items-center justify-center text-sm transition">
                 {{ $t('camera.retake') }}
               </button>
-              <button @click="saveCurrentResultToHistory" class="px-4 py-3 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg font-semibold shadow-sm w-[160px] flex items-center justify-center text-sm transition">
+              <!-- Simpan ke Riwayat (Jika Burung Jawa) -->
+              <button v-if="currentResult.name === 'Burung Endemik Jawa'" @click="saveCurrentResultToHistory" class="px-4 py-3 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg font-semibold shadow-sm w-[160px] flex items-center justify-center text-sm transition">
                 {{ $t('camera.save_history') }}
+              </button>
+
+              <!-- Buang ke Tempat Sampah (Jika Bukan Burung) -->
+              <button v-else-if="currentResult.name === 'Object Lain'" @click="dumpCurrentResultToTrash" class="px-4 py-3 bg-orange-600 text-white hover:bg-orange-700 rounded-lg font-semibold shadow-sm w-[160px] flex items-center justify-center text-sm gap-2 transition">
+                <img src="/images/trash_bin.png" class="w-5 h-5 object-contain" />
+                Buang Sampah
+              </button>
+
+              <!-- Tutup (Jika Burung Luar Jawa) -->
+              <button v-else-if="currentResult.name === 'Burung Endemik Lain'" @click="emit('close')" class="px-4 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold w-[160px] flex items-center justify-center text-sm transition">
+                Tutup
               </button>
             </template>
           </div>
@@ -217,8 +226,8 @@
                 </div>
               </div>
               
-              <div class="mt-auto grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 md:col-span-2 shadow-sm flex flex-col justify-start">
+              <div class="mt-auto grid grid-cols-1 gap-5">
+                <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-start">
                   <h4 class="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-widest mb-3 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -227,38 +236,11 @@
                   </h4>
                   <div class="flex flex-wrap gap-2 mb-3">
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-100 dark:border-blue-800/30">
-                      💧 {{ currentLang === 'id' ? currentResult.water_id : currentResult.water_en }}
-                    </span>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-[10px] font-bold uppercase tracking-wider border border-amber-100 dark:border-amber-800/30">
-                      ☀️ {{ currentLang === 'id' ? currentResult.sun_id : currentResult.sun_en }}
+                      📍 Habitat: {{ currentLang === 'id' ? currentResult.habitat_id : currentResult.habitat_en }}
                     </span>
                   </div>
                   <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                     {{ currentLang === 'id' ? currentResult.description_id : currentResult.description_en }}
-                  </p>
-                </div>
-                
-                <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-start">
-                  <h4 class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    {{ currentLang === 'id' ? 'Panduan Perawatan' : 'Care Guide' }}
-                  </h4>
-                  <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
-                    {{ currentLang === 'id' ? currentResult.care_guide_id : currentResult.care_guide_en }}
-                  </p>
-                </div>
-
-                <div class="bg-white dark:bg-gray-900 p-5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-start">
-                  <h4 class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    {{ currentLang === 'id' ? 'Peringatan Racun' : 'Toxicity' }}
-                  </h4>
-                  <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
-                    {{ currentLang === 'id' ? currentResult.toxicity_id : currentResult.toxicity_en }}
                   </p>
                 </div>
               </div>
@@ -489,49 +471,22 @@
                 </span>
               </div>
               
-              <!-- Plant Description & Details -->
+              <!-- Bird Description & Details -->
               <div class="mt-2 grid grid-cols-1 gap-4">
                 <div class="p-5 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
                   <h4 class="text-[10px] font-bold text-gray-800 dark:text-gray-200 uppercase tracking-widest mb-3 flex items-center gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    {{ currentLang === 'id' ? 'Deskripsi Botani' : 'Botanical Description' }}
+                    {{ currentLang === 'id' ? 'Deskripsi Burung' : 'Bird Description' }}
                   </h4>
-                  <div class="flex flex-wrap gap-2 mb-3" v-if="selectedItem.water_id || selectedItem.water_en || selectedItem.sun_id || selectedItem.sun_en">
-                    <span v-if="selectedItem.water_id || selectedItem.water_en" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-[9px] font-bold uppercase tracking-wider border border-blue-100 dark:border-blue-800/30">
-                      💧 {{ currentLang === 'id' ? (selectedItem.water_id || selectedItem.water_en) : selectedItem.water_en }}
-                    </span>
-                    <span v-if="selectedItem.sun_id || selectedItem.sun_en" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-[9px] font-bold uppercase tracking-wider border border-amber-100 dark:border-amber-800/30">
-                      ☀️ {{ currentLang === 'id' ? (selectedItem.sun_id || selectedItem.sun_en) : selectedItem.sun_en }}
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-[9px] font-bold uppercase tracking-wider border border-blue-100 dark:border-blue-800/30">
+                      📍 Habitat: {{ currentLang === 'id' ? (selectedItem.habitat_id || 'Data tidak tersedia') : (selectedItem.habitat_en || 'Data not available') }}
                     </span>
                   </div>
                   <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                     {{ currentLang === 'id' ? (selectedItem.description_id || selectedItem.description || 'Data tidak tersedia.') : (selectedItem.description_en || selectedItem.description || 'Data not available.') }}
-                  </p>
-                </div>
-                
-                <div class="p-5 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                  <h4 class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    {{ currentLang === 'id' ? 'Panduan Perawatan' : 'Care Guide' }}
-                  </h4>
-                  <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
-                    {{ currentLang === 'id' ? (selectedItem.care_guide_id || selectedItem.care_guide || 'Data tidak tersedia.') : (selectedItem.care_guide_en || selectedItem.care_guide || 'Data not available.') }}
-                  </p>
-                </div>
-
-                <div class="p-5 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                  <h4 class="text-[10px] font-bold text-red-600 dark:text-red-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    {{ currentLang === 'id' ? 'Peringatan Racun' : 'Toxicity' }}
-                  </h4>
-                  <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
-                    {{ currentLang === 'id' ? (selectedItem.toxicity_id || selectedItem.toxicity || 'Data tidak tersedia.') : (selectedItem.toxicity_en || selectedItem.toxicity || 'Data not available.') }}
                   </p>
                 </div>
               </div>
@@ -611,14 +566,15 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
-import plantsData from '../data/plants_info.json'
+import birdsData from '../data/birds_info.json'
 
 const { t, locale } = useI18n()
-const MODEL_BASE_URL = 'https://teachablemachine.withgoogle.com/models/GMWNtuX0_/'
+locale.value = 'id'
+const MODEL_BASE_URL = 'https://teachablemachine.withgoogle.com/models/4KyHJBrT0/'
 
 // Global Layout State
 const isDark = ref(false)
-const currentLang = ref(locale.value)
+const currentLang = ref('id')
 const isSplashVisible = ref(!sessionStorage.getItem('splashShown'))
 let splashTimer = null
 
@@ -655,7 +611,7 @@ const itemToDelete = ref(null)
 
 // Dataset Modal State
 const isDatasetModalOpen = ref(false)
-const datasetPlants = computed(() => Object.values(plantsData))
+const datasetBirds = computed(() => Object.values(birdsData))
 
 // PWA Install State
 const deferredPrompt = ref(null)
@@ -714,7 +670,7 @@ onMounted(() => {
   }
   
   // Load history from local storage
-  const savedHistory = localStorage.getItem('flora_history')
+  const savedHistory = localStorage.getItem('fauna_history')
   if (savedHistory) {
     scanHistory.value = JSON.parse(savedHistory)
   }
@@ -763,7 +719,7 @@ const toggleLang = () => {
   const newLang = currentLang.value === 'id' ? 'en' : 'id'
   currentLang.value = newLang
   locale.value = newLang
-  localStorage.setItem('flora_lang', newLang)
+  localStorage.setItem('fauna_lang', newLang)
 }
 
 // ==============================
@@ -864,73 +820,19 @@ const normalizeLabel = (label) => {
   return label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
 }
 
-const plantKeyByLabel = {
-  syngonium: 'syngonium',
-  sansevieria: 'sansevieria',
-  philodendron: 'philodendron',
-  monstera: 'monstera',
-  hoya: 'hoya',
-  ficus: 'ficus',
-  epipremnum: 'epipremnum',
-  dieffenbachia: 'dieffenbachia',
-  calathea: 'calathea',
-  caladium: 'caladium',
-  aglaonema: 'aglaonema',
-  anthurium: 'anthurium',
-  begonia: 'begonia',
-  peperomia: 'peperomia',
-  alocasia: 'alocasia'
-}
 
-const titleFromLabel = (label) => {
-  return label.trim().replace(/_/g, ' ')
-}
 
-const fallbackPlantInfo = (label) => {
-  const cleanLabel = titleFromLabel(label)
-  const isNotPlant = normalizeLabel(label) === 'not_plant'
-  const isOtherPlant = normalizeLabel(label) === 'tanaman_lain'
-  const name = isNotPlant
-    ? (currentLang.value === 'id' ? 'Bukan Tanaman' : 'Not a Plant')
-    : cleanLabel
-
-  return {
-    name,
-    family: isOtherPlant ? 'Tanaman lain' : '-',
-    water_id: 'Data belum tersedia',
-    water_en: 'Data not available',
-    sun_id: 'Data belum tersedia',
-    sun_en: 'Data not available',
-    description_id: isNotPlant
-      ? 'Gambar tidak terdeteksi sebagai tanaman dari dataset FloraScan.'
-      : `Model mengenali gambar sebagai ${cleanLabel}, tetapi detail botani untuk label ini belum tersedia di database FloraScan.`,
-    description_en: isNotPlant
-      ? 'The image was not detected as a plant from the FloraScan dataset.'
-      : `The model recognized this image as ${cleanLabel}, but botanical details for this label are not available in the FloraScan database yet.`,
-    care_guide_id: 'Belum ada panduan perawatan untuk label ini.',
-    care_guide_en: 'No care guide is available for this label yet.',
-    toxicity_id: 'Data toksisitas belum tersedia.',
-    toxicity_en: 'Toxicity data is not available yet.'
-  }
-}
-
-const buildAnalysisResult = (plant, confidence) => {
+const buildAnalysisResult = (bird, confidence) => {
   const now = new Date()
 
   return {
     id: Date.now().toString(),
-    name: plant.name,
-    family: plant.family,
-    water_en: plant.water_en,
-    water_id: plant.water_id,
-    sun_en: plant.sun_en,
-    sun_id: plant.sun_id,
-    description_en: plant.description_en,
-    description_id: plant.description_id,
-    care_guide_en: plant.care_guide_en,
-    care_guide_id: plant.care_guide_id,
-    toxicity_en: plant.toxicity_en,
-    toxicity_id: plant.toxicity_id,
+    name: bird.name,
+    family: bird.family,
+    habitat_en: bird.habitat_en || '-',
+    habitat_id: bird.habitat_id || '-',
+    description_en: bird.description_en,
+    description_id: bird.description_id,
     confidence,
     image: capturedImage.value,
     date: now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
@@ -946,16 +848,47 @@ const analyzeImage = async () => {
   try {
     const model = await loadTeachableMachineModel()
     const image = await imageFromDataUrl(capturedImage.value)
+    
+    // Berikan delay buatan selama 2 detik agar animasi scanning terlihat premium
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    
     const predictions = await model.predict(image)
     const bestPrediction = predictions.reduce((best, item) => {
       return item.probability > best.probability ? item : best
     }, predictions[0])
     const label = bestPrediction.className
-    const plantKey = plantKeyByLabel[normalizeLabel(label)]
-    const plant = plantKey ? plantsData[plantKey] : fallbackPlantInfo(label)
+    const normLabel = normalizeLabel(label)
+    
+    let bird = {
+      name: '',
+      family: '-',
+      habitat_id: 'Pulau Jawa',
+      habitat_en: 'Java Island',
+      description_id: '',
+      description_en: ''
+    }
+
+    if (normLabel === 'burung_jawa') {
+      bird.name = 'Burung Endemik Jawa'
+      bird.description_id = 'Ini adalah burung endemik dari pulau Jawa.'
+      bird.description_en = 'This is an endemic bird from Java island.'
+    } else if (normLabel === 'bukan_burung') {
+      bird.name = 'Object Lain'
+      bird.habitat_id = '-'
+      bird.habitat_en = '-'
+      bird.description_id = 'Objek terdeteksi bukan burung. Sistem kami saat ini hanya dapat memproses fauna burung.'
+      bird.description_en = 'Object detected is not a bird. Our system can only process bird species.'
+    } else {
+      bird.name = 'Burung Endemik Lain'
+      bird.habitat_id = '-'
+      bird.habitat_en = '-'
+      bird.description_id = 'Ini adalah burung dari wilayah lain.'
+      bird.description_en = 'This is a bird from another region.'
+    }
+    
     const confidence = (bestPrediction.probability * 100).toFixed(1)
 
-    currentResult.value = buildAnalysisResult(plant, confidence)
+    currentResult.value = buildAnalysisResult(bird, confidence)
     showResult.value = true
   } catch (err) {
     console.error("Error analyzing image: ", err)
@@ -975,6 +908,25 @@ const saveCurrentResultToHistory = () => {
     emit('scan-success', currentResult.value)
     
     // Hide current result to force taking a new photo
+    showResult.value = false
+    isCaptured.value = false
+    currentResult.value = null
+    startCamera()
+  }
+}
+
+const dumpCurrentResultToTrash = () => {
+  if (currentResult.value) {
+    const trash = JSON.parse(localStorage.getItem('fauna_trash') || '[]')
+    trash.unshift({
+      id: currentResult.value.id,
+      name: currentResult.value.name,
+      confidence: currentResult.value.confidence,
+      image: currentResult.value.image,
+      date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+    })
+    localStorage.setItem('fauna_trash', JSON.stringify(trash))
+
     showResult.value = false
     isCaptured.value = false
     currentResult.value = null
@@ -1091,7 +1043,7 @@ const closeDatasetModal = () => {
 
 // Persistence
 const saveHistoryToLocal = () => {
-  localStorage.setItem('flora_history', JSON.stringify(scanHistory.value))
+  localStorage.setItem('fauna_history', JSON.stringify(scanHistory.value))
 }
 
 // Export Logic
@@ -1125,7 +1077,7 @@ const exportToCSV = () => {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.setAttribute('href', url)
-  link.setAttribute('download', `florascan_history_${new Date().getTime()}.csv`)
+  link.setAttribute('download', `faunanusantara_history_${new Date().getTime()}.csv`)
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)

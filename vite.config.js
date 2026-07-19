@@ -14,7 +14,7 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    exclude: ['venv']
+    entries: ['index.html']
   },
   plugins: [
     vue({
@@ -33,9 +33,9 @@ export default defineConfig({
       },
       manifest: {
         id: appBase,
-        name: 'FloraScan',
-        short_name: 'FloraScan',
-        description: 'Professional AI Plant Identifier',
+        name: 'FaunaNusantara.ai',
+        short_name: 'FaunaNusantara',
+        description: 'Professional AI Bird Identifier',
         theme_color: '#059669',
         background_color: '#ffffff',
         display: 'standalone',

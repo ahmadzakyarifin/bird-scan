@@ -1,0 +1,26 @@
+{
+  "burung_jawa": {
+    "name": "Burung Endemik Jawa",
+    "family": "-",
+    "habitat_id": "Pulau Jawa",
+    "habitat_en": "Java Island",
+    "description_id": "Spesies burung endemik khas Jawa.",
+    "description_en": "Endemic bird species of Java."
+  },
+  "burung_lain": {
+    "name": "Burung Luar Jawa",
+    "family": "-",
+    "habitat_id": "-",
+    "habitat_en": "-",
+    "description_id": "Data burung luar Jawa belum tersedia, sehingga sistem belum bisa memetakan hasilnya.",
+    "description_en": "Data of non-Javanese birds is not available yet, so the system cannot map the result yet."
+  },
+  "bukan_burung": {
+    "name": "Bukan Burung",
+    "family": "-",
+    "habitat_id": "-",
+    "habitat_en": "-",
+    "description_id": "Objek terdeteksi bukan burung. Sistem kami saat ini hanya dapat memproses fauna burung.",
+    "description_en": "Object detected is not a bird. Our system can only process bird species."
+  }
+}

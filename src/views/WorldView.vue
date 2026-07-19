@@ -11,8 +11,9 @@
         @close="resetCamera" 
       />
       
-      <BotanicalGardenOverlay 
+      <AviaryOverlay 
         v-else-if="currentLocation.id === 'garden'" 
+        :island-id="islandId"
         @close="resetCamera" 
       />
       
@@ -44,10 +45,10 @@
     <!-- Overlay Instruction -->
     <div v-if="!currentLocation" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center pointer-events-none">
       <div class="px-6 py-2 bg-emerald-900/80 backdrop-blur-md text-emerald-100 rounded-full text-xs font-bold uppercase tracking-widest mb-3 border border-emerald-500/30">
-        📍 Eksplorasi: Pulau Jawa
+        📍 Eksplorasi: {{ islandName }}
       </div>
       <div class="px-6 py-3 bg-black/60 backdrop-blur-sm text-white rounded-full text-sm font-medium animate-pulse border border-white/10 shadow-lg">
-        Pilih bangunan untuk mulai mengeksplorasi
+        Pilih bangunan Aviary (warna kuning) untuk melihat histori burung
       </div>
     </div>
 
@@ -157,14 +158,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import gsap from 'gsap'
 
 import AILabOverlay from '../components/AILabOverlay.vue'
-import BotanicalGardenOverlay from '../components/BotanicalGardenOverlay.vue'
+import AviaryOverlay from '../components/AviaryOverlay.vue'
 import Building from '../components/world/Building.vue'
+
+const route = useRoute()
+const islandId = ref(route.query.island || null)
+
+const islandNames = {
+  sumatra: 'Pulau Sumatra',
+  jawa: 'Pulau Jawa',
+  kalimantan: 'Pulau Kalimantan',
+  sulawesi: 'Pulau Sulawesi',
+  papua: 'Pulau Papua'
+}
+const islandName = computed(() => islandId.value ? islandNames[islandId.value] || 'Kepulauan Nusantara' : 'Kepulauan Nusantara')
 
 const cameraRef = ref(null)
 const currentLocation = ref(null)
@@ -173,7 +187,7 @@ const locations = {
   tree: {
     id: 'tree',
     name: "Tree of Life",
-    description: "Pohon kehidupan ini tumbuh seiring dengan jumlah tanaman yang berhasil Anda identifikasi. Semakin banyak pengetahuan, semakin rindang pohon ini.",
+    description: "Pohon kehidupan ini tumbuh seiring dengan jumlah spesies burung yang berhasil Anda identifikasi. Semakin banyak pengetahuan, semakin rindang pohon ini.",
     actionText: "Lihat Progress",
     camPos: [0, 5, 4],
     lookAt: [0, 2, -2]
@@ -181,31 +195,31 @@ const locations = {
   lab: {
     id: 'lab',
     name: "AI Laboratory",
-    description: "Pusat penelitian canggih tempat AI menganalisis tanaman yang Anda temukan di alam liar.",
+    description: "Pusat penelitian canggih tempat AI menganalisis burung yang Anda temukan di alam liar.",
     actionText: "Upload & Scan Foto",
     camPos: [-5, 3, 7],
     lookAt: [-5, 1, 3]
   },
   garden: {
     id: 'garden',
-    name: "Botanical Garden",
-    description: "Koleksi digital dari semua tanaman yang telah Anda temukan. Kebun ini adalah bukti perjalanan ekspedisi Anda.",
-    actionText: "Lihat Koleksi",
+    name: "Aviary Konservasi",
+    description: "Koleksi digital dari semua burung yang telah Anda temukan di pulau ini. Aviary ini adalah bukti perjalanan ekspedisi Anda.",
+    actionText: "Lihat Koleksi Burung",
     camPos: [4, 3, 8],
     lookAt: [4, 0.5, 4]
   },
   observatory: {
     id: 'observatory',
     name: "Observatory",
-    description: "Menara pantau untuk melihat peta persebaran flora di seluruh penjuru kepulauan Nusantara.",
+    description: "Menara pantau untuk melihat peta persebaran avifauna di seluruh penjuru kepulauan Nusantara.",
     actionText: "Buka Peta Indonesia",
     camPos: [-4, 5, -1],
     lookAt: [-4, 2, -5]
   },
   museum: {
     id: 'museum',
-    name: "Museum Flora",
-    description: "Ensiklopedia interaktif yang menyimpan data lengkap tentang setiap spesies tanaman yang teridentifikasi.",
+    name: "Museum Fauna",
+    description: "Ensiklopedia interaktif yang menyimpan data lengkap tentang setiap spesies burung yang teridentifikasi.",
     actionText: "Buka Ensiklopedia",
     camPos: [5, 4, 1],
     lookAt: [5, 1.5, -3]
