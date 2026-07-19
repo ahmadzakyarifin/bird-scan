@@ -32,19 +32,15 @@
     <!-- Gamified Header -->
     <header class="absolute top-0 left-0 w-full z-40 px-6 py-6 flex items-center justify-between pointer-events-none">
       <div class="flex items-center gap-4">
-        <!-- History Book -->
-        <div @click="openGlobalHistory" class="flex items-center gap-4 bg-white/80 backdrop-blur-md px-5 py-3 rounded-2xl shadow-sm border border-emerald-100 hover:bg-emerald-50 transition cursor-pointer pointer-events-auto">
-          <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-inner">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h1 class="text-xl font-black tracking-tight text-emerald-950">FaunaNusantara.ai</h1>
-            <div class="flex items-center gap-2 mt-0.5">
-              <span class="text-xs font-bold text-emerald-600">Buku Histori Avifauna</span>
-              <span class="text-[10px] text-gray-500 font-medium px-2 py-0.5 bg-gray-100 rounded-full">Total: {{ faunaHistory.length }} Burung</span>
-            </div>
+        <!-- History Book Banner -->
+        <div 
+          @click="openGlobalHistory" 
+          class="relative w-[300px] md:w-[350px] aspect-[681/300] hover:scale-105 transition-transform duration-300 cursor-pointer pointer-events-auto select-none"
+        >
+          <img :src="basePath + 'images/ui_header_banner.png'" class="w-full h-full object-contain drop-shadow-md" alt="Header Board" />
+          <!-- Absolute positioned text for total count overlay -->
+          <div class="absolute left-[79%] top-[56%] -translate-y-1/2 text-amber-950 font-black text-[12px] md:text-[14px]">
+            {{ faunaHistory.length }}
           </div>
         </div>
       </div>
@@ -137,18 +133,13 @@
     <!-- Global Scanner HUD -->
     <div 
       v-if="!isZooming && !activeOverlay"
-      class="absolute bottom-10 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center animate-fade-in-up pointer-events-auto"
+      class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center animate-fade-in-up pointer-events-auto"
     >
       <button 
         @click="openScanner"
-        class="group relative flex items-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 rounded-full shadow-[0_15px_40px_-10px_rgba(16,185,129,0.8)] border-4 border-emerald-100 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+        class="active:scale-95 transition-transform duration-150 focus:outline-none"
       >
-        <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span class="text-white font-bold tracking-wide">Mulai Scan</span>
+        <img :src="basePath + 'images/ui_mulai_scan.png'" alt="Mulai Scan" class="w-[260px] md:w-[300px] h-auto drop-shadow-md hover:scale-105 transition-transform duration-300" />
       </button>
     </div>
 
